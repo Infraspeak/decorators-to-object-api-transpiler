@@ -36,7 +36,6 @@
     "@vue/eslint-config-typescript": "^11.0.2",
     "commander": "^10.0.0",
     "eslint": "^8.36.0",
-    "eslint-plugin-is-eslint": "file:vue/is-eslint-plugin",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-vue": "^9.9.0",
     "glob": "^8.1.0",
