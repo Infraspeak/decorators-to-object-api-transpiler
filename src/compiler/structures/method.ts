@@ -31,7 +31,8 @@ function buildMethodReturnTypeDeclaration(method: Method): string {
   return method.returnType ? `: ${method.returnType}` : ''
 }
 
-function buildStatementDeclaration(statement: string | WriterFunction | StatementStructures, writer: CodeBlockWriter): void {
+// TODO include return type
+export function buildStatementDeclaration(statement: string | WriterFunction | StatementStructures, writer: CodeBlockWriter): void {
   if (typeof statement === 'string') {
     writer.writeLine(statement)
   } else if (typeof statement === 'function') {
