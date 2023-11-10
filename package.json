@@ -1,6 +1,6 @@
 {
   "name": "decorators-to-options-api",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "This CLI converts Vue SFC using class decorators syntax to regular options API",
   "main": "index.js",
   "scripts": {

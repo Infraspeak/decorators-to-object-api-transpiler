@@ -62,6 +62,8 @@ Options:
   -V, --version               output the version number
   -f, --files <filepaths...>  Accept file paths or globs (default: [])
   -l, --linter <filepath>     Accept linter config file path, "./.eslintrc.js" by default
+  --no-linter                 Disable file linting
+  -o, --overwrite             Overwrite SFCs with new syntax
   -s, --silent                DO NOT log stuff to console (default: false)
   -h, --help                  display help for command
 ```

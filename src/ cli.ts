@@ -5,6 +5,7 @@ import { logger } from './logger'
 export type CliOptions = {
   files: string[]
   linter: string
+  noLinter: boolean
   silent: boolean
   overwrite: boolean
 }
@@ -18,6 +19,7 @@ const cli =
     .option('-f, --files <filepaths...>', 'Accept file paths or globs', [])
     .option('-o, --overwrite', 'Overwrite SFCs with new syntax', false)
     .option('-l, --linter <filepath>', 'Accept linter config file path, "./.eslintrc.js" by default')
+    .option('--no-linter', 'Disable file linting', true)
     .option('-s, --silent', 'DO NOT log stuff to console', false)
     .parse()
 

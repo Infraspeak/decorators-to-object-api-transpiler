@@ -4,6 +4,7 @@ import { buildVueComponent, VueComponent, writeVueComponent } from './file-contr
 import { buildLinter, lintFile } from './compiler/linter'
 import { getVueSFCFilePaths, notNullish } from './utils'
 import { logger } from './logger'
+import {ESLint} from 'eslint'
 
 
 
@@ -12,8 +13,12 @@ const main = async (): Promise<void> => {
 
   if (!options) return
 
-  const { files, silent, linter: linterConfigFile, overwrite } = options
-  const linter = buildLinter(linterConfigFile)
+  const { files, silent, linter: linterConfigFile, overwrite} = options
+  let linter: ESLint | undefined
+  const lintFiles = !!linter
+  if(lintFiles) {
+   linter = buildLinter(linterConfigFile)
+  }
 
   if (!silent) {
     logger.info('Looking for Vue SFCs in:')
@@ -34,19 +39,24 @@ const main = async (): Promise<void> => {
   const compiledComponents = await Promise.all(vueComponentDescriptors.map(async ({ filepath, descriptor }): Promise<VueComponent | undefined> => {
     if (!silent) logger.info(`\t${filepath}`)
     try {
-      return { filepath, descriptor: await compile(descriptor, { linter }) }
+      const options = linter ? { linter } : undefined
+      return { filepath, descriptor: await compile(descriptor, options) }
     } catch (error) {
       logger.error(`${error} on ${filepath}`)
     }
   }))
 
   // compiledComponents.forEach(c => logger.info(c.descriptor.script?.content))
-  if (!silent) logger.info('Linting files:')
+  if (lintFiles) {
+    if (!silent) logger.info('Linting files:')
+  }
   await Promise.all(compiledComponents.filter(notNullish).map(async c => {
     const { filepath } = writeVueComponent(c, { overwrite })
     try {
-      if (!silent) logger.info(`\t${filepath}`)
-      await lintFile(linter, filepath)
+      if (linter) {
+        if (!silent) logger.info(`\t${filepath}`)
+        await lintFile(linter, filepath)
+      }
     } catch (error) {
       logger.warn(`Failed to lint ${filepath}: ${error}`)
     }
