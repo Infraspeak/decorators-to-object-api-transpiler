@@ -1,5 +1,5 @@
 import { CodeBlockWriter, MethodDeclaration, MethodDeclarationStructure } from 'ts-morph'
-import { toCamelCase } from '../../utils'
+import { buildDocs } from './docs'
 
 export type Emit = Omit<MethodDeclarationStructure, 'kind'> & { event: string }
 
@@ -68,6 +68,8 @@ function buildEmitMethodDeclaration(emit: Emit, returnType?: string): string {
  * 
  */
 export function generateEmitValidator(emit: Emit, writer: CodeBlockWriter): CodeBlockWriter {
+  buildDocs(emit, writer)
+  
   const payload = getEmitPayload(emit)
   return writer.write(`'${(emit.event)}' (${payload}): boolean`).inlineBlock(() => {
     writer.writeLine('// TODO add validator')
