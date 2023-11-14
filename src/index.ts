@@ -6,8 +6,6 @@ import { getVueSFCFilePaths, notNullish } from './utils'
 import { logger } from './logger'
 import {ESLint} from 'eslint'
 
-console.log('this is a version test 2')
-
 const main = async (): Promise<void> => {
   const options = getCliOptions()
 
