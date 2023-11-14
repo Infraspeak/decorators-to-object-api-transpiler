@@ -1,4 +1,5 @@
 import { CodeBlockWriter, FunctionDeclarationStructure, KindedStructure, MethodDeclaration, MethodDeclarationStructure, OptionalKind, ParameterDeclarationStructure, StatementStructures, StructureKind, VariableStatementStructure, WriterFunction } from 'ts-morph'
+import { buildDocs } from './docs'
 
 export type Method = Omit<MethodDeclarationStructure, 'kind'>
 
@@ -9,6 +10,8 @@ export function createMethod(method: MethodDeclaration): Method {
 }
 
 export function generateMethod(method: Method, writer: CodeBlockWriter): CodeBlockWriter {
+  buildDocs(method, writer)
+
   return writer
     .write(buildMethodDeclaration(method)).inlineBlock(() => {
       (method.statements as (string | WriterFunction | StatementStructures)[]).forEach(
@@ -43,12 +46,13 @@ export function buildStatementDeclaration(statement: string | WriterFunction | S
     const statementType = (statement as KindedStructure<StructureKind>).kind
     switch (statementType) {
       // const myFunction = (): ReturnType => { ... }
-      case StructureKind.VariableStatement:
+      case StructureKind.VariableStatement: {
         const vss = statement as VariableStatementStructure
         writer.writeLine(`${vss.declarationKind} ${vss.declarations.map(_ => `${_.name} = ${_.initializer}`)}`)
         break
+      }
       // function myFunction(): ReturnType { ... }
-      case StructureKind.Function:
+      case StructureKind.Function: {
         const fds = statement as FunctionDeclarationStructure
         const parameters = fds.parameters?.map(buildMethodParameterDeclaration).join(', ')
         writer.write(`${fds.isAsync ? 'async ' : ''}function ${fds.name}(${parameters})${fds.returnType ? `: ${fds.returnType}` : ''} `).inlineBlock(() => {
@@ -57,6 +61,7 @@ export function buildStatementDeclaration(statement: string | WriterFunction | S
           )
         }).newLine()
         break
+      }
     }
   }
 }

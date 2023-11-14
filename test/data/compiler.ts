@@ -1,4 +1,4 @@
-export const TEST_CLASS_COMPONENT_CODE = 
+export const TEST_CLASS_COMPONENT_CODE =
 `import { Component, Prop, Vue, Ref, Emit, Watch, Mixins } from 'vue-property-decorator'
 import NestedComponent from './NestedComponent.vue'
 import AnotherNestedComponent from './NestedComponent.vue'
@@ -109,6 +109,11 @@ export default class ExampleComponent extends Mixins(MyMixin) {
     }
 
     // methods
+    /**
+     * JSDOC block
+     *
+     * logSomething logs something
+     */
     logSomething (something: any): void {
         console.log(something)
     }
@@ -170,7 +175,7 @@ export default class ExampleComponent extends Mixins(MyMixin) {
  *      4.9.2. emits
  *      4.9.3. watch handlers
  */
-export const TEST_OPTIONS_COMPONENT_CODE = 
+export const TEST_OPTIONS_COMPONENT_CODE =
 `import type { PropType } from 'vue'
 import { defineComponent } from 'vue'
 
@@ -295,6 +300,11 @@ export default defineComponent({
     },
 
     methods: {
+        /**
+         * JSDOC block
+         *
+         * logSomething logs something
+         */
         logSomething (something: any): void {
             console.log(something)
         },
