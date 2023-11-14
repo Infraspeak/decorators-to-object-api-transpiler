@@ -35,9 +35,21 @@ const main = async (): Promise<void> => {
     vueComponentDescriptors.forEach(({ filepath }) => logger.info(`\t${filepath}`))
   }
 
-  if (!silent) logger.info('Converting files:')
+  if (!silent) {
+    if(options.dryRun) {
+      logger.info('Converting files:')
+    }else{
+      logger.warn('[DRY RUN] Converting files:')
+    }
+  }
   const compiledComponents = await Promise.all(vueComponentDescriptors.map(async ({ filepath, descriptor }): Promise<VueComponent | undefined> => {
-    if (!silent) logger.info(`\t${filepath}`)
+    if (!silent) {
+      if(options.dryRun) {
+        logger.warn(`\t [DRY RUN] ${filepath}`)
+      } else {
+        logger.info(`\t${filepath}`)
+      }
+    }
     try {
       const options = linter ? { linter } : undefined
       return { filepath, descriptor: await compile(descriptor, options) }
@@ -51,6 +63,11 @@ const main = async (): Promise<void> => {
     if (!silent) logger.info('Linting files:')
   }
   await Promise.all(compiledComponents.filter(notNullish).map(async c => {
+
+    if(options.dryRun) {
+      return Promise.resolve()
+    }
+
     const { filepath } = writeVueComponent(c, { overwrite })
     try {
       if (linter) {

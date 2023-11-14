@@ -8,6 +8,7 @@ export type CliOptions = {
   noLinter: boolean
   silent: boolean
   overwrite: boolean
+  dryRun: boolean
 }
 
 const cli =
@@ -21,6 +22,7 @@ const cli =
     .option('-l, --linter <filepath>', 'Accept linter config file path, "./.eslintrc.js" by default')
     .option('--no-linter', 'Disable file linting', true)
     .option('-s, --silent', 'DO NOT log stuff to console', false)
+    .option('-x, --dry-run', 'Generate the new syntax but skip writing to disk', false)
     .parse()
 
 export function getCliOptions(): CliOptions | undefined {

@@ -65,6 +65,7 @@ Options:
   --no-linter                 Disable file linting
   -o, --overwrite             Overwrite SFCs with new syntax
   -s, --silent                DO NOT log stuff to console (default: false)
+  -x, --dry-run               Generate the new syntax but skip writing to disk (default: false)
   -h, --help                  display help for command
 ```
 
