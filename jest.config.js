@@ -4,4 +4,5 @@ module.exports = {
   testEnvironment: 'node',
   verbose: true,
   collectCoverage: true,
-};
+  cacheDirectory: '.jest-cache',
+}

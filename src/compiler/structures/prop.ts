@@ -12,7 +12,7 @@ export type PropPropertyType = typeof VUE_PROP_PROPERTY_IDENTIFIERS[number]
 
 
 export type Prop = {
-  structure: PropertyDeclarationStructure
+  structure: Omit<PropertyDeclarationStructure, 'kind'>
 
   name: string
 

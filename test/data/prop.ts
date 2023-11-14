@@ -47,7 +47,17 @@ const defaultBooleanOptionsCode =
 const defaultBooleanTestCase: TestCase<PropertyDeclaration, Prop> = {
   node: defaultBooleanNode,
   code: defaultBooleanOptionsCode,
-  structure: { name: 'defaultBoolean', isReadonly: false, isRequired: false, propType: 'Boolean', nativeType: 'boolean', defaultValue: 'true' },
+  structure: {
+    name: 'defaultBoolean',
+    isReadonly: false,
+    isRequired: false,
+    propType: 'Boolean',
+    nativeType: 'boolean',
+    defaultValue: 'true',
+    structure: {
+      name: 'defaultBoolean',
+    },
+  },
   description: 'should generate not required boolean prop with default value',
 }
 
@@ -65,7 +75,7 @@ const optionsPropDefaultProp =
 const defaultPropTestCase: TestCase<PropertyDeclaration, Prop> = {
   node: defaultPropNode,
   code: optionsPropDefaultProp,
-  structure: { name: 'defaultProp', isReadonly: true, isRequired: false, propType: 'String', nativeType: '\'option 1\' | \'option 2\'', defaultValue: '\'option 1\'' },
+  structure: { name: 'defaultProp', isReadonly: true, isRequired: false, propType: 'String', nativeType: '\'option 1\' | \'option 2\'', defaultValue: '\'option 1\'', structure: { name: 'defaultProp' } },
   description: 'should generate not required string union prop with default value',
 }
 
@@ -83,7 +93,7 @@ const requiredStringPropOptionsCode =
 const requiredStringPropTestCase: TestCase<PropertyDeclaration, Prop> = {
   node: requiredStringPropNode,
   code: requiredStringPropOptionsCode,
-  structure: { name: 'requiredStringProp', isReadonly: true, isRequired: true, propType: 'String', nativeType: 'string' },
+  structure: { name: 'requiredStringProp', isReadonly: true, isRequired: true, propType: 'String', nativeType: 'string', structure: { name: 'requiredStringProp' } },
   description: 'should generate required string prop',
 }
 
@@ -100,7 +110,7 @@ const notRequiredStringPropOptionsCode =
 const notRequiredStringPropTestCase: TestCase<PropertyDeclaration, Prop> = {
   node: notRequiredStringPropNode,
   code: notRequiredStringPropOptionsCode,
-  structure: { name: 'notRequiredStringProp', isReadonly: true, isRequired: false, propType: 'String', nativeType: 'string' },
+  structure: { name: 'notRequiredStringProp', isReadonly: true, isRequired: false, propType: 'String', nativeType: 'string', structure: { name: 'notRequiredStringProp' } },
   description: 'should generate not required string prop',
 }
 /**
@@ -116,7 +126,7 @@ const objectPropOptionsCode =
 export const propObjectPropTestStructure: TestCase<PropertyDeclaration, Prop> = {
   node: objectPropNode,
   code: objectPropOptionsCode,
-  structure: { name: 'objectProp', isReadonly: true, isRequired: false, propType: 'Object', nativeType: 'MyInterface' },
+  structure: { name: 'objectProp', isReadonly: true, isRequired: false, propType: 'Object', nativeType: 'MyInterface', structure: { name: 'objectProp' } },
   description: 'should generate not required object prop with interface as PropType',
 }
 
@@ -135,7 +145,7 @@ const validatedPropOptionsCode =
 const validatedPropNodeTestCase: TestCase<PropertyDeclaration, Prop> = {
   node: validatedPropNode,
   code: validatedPropOptionsCode,
-  structure: { name: 'validatedProp', isReadonly: false, isRequired: false, propType: 'String', nativeType: 'string', validator: '(prop) => typeof prop === \'string\' || prop === null', defaultValue: '\'cenas\'' },
+  structure: { name: 'validatedProp', isReadonly: false, isRequired: false, propType: 'String', nativeType: 'string', validator: '(prop) => typeof prop === \'string\' || prop === null', defaultValue: '\'cenas\'', structure: { name: 'validatedProp' } },
   description: 'should generate not required string prop with default value and custom validator',
 }
 
@@ -149,7 +159,7 @@ const stringOrNullPropCode =
 const stringOrNullPropNodeTestCase: TestCase<PropertyDeclaration, Prop> = {
   node: stringOrNullPropNode,
   code: stringOrNullPropCode,
-  structure: { name: 'stringOrNullProp', isReadonly: false, isRequired: false, propType: 'String', nativeType: 'string | null' },
+  structure: { name: 'stringOrNullProp', isReadonly: false, isRequired: false, propType: 'String', nativeType: 'string | null', structure: { name: 'stringOrNullProp' } },
   description: 'should generate prop with multiple types',
 }
 
@@ -166,7 +176,7 @@ const untypedPropCode =
 const untypedPropNodeTestCase: TestCase<PropertyDeclaration, Prop> = {
   node: untypedPropNode,
   code: untypedPropCode,
-  structure: { name: 'untypedProp', isReadonly: false, isRequired: false, nativeType: 'any' },
+  structure: { name: 'untypedProp', isReadonly: false, isRequired: false, nativeType: 'any', structure: { name: 'untypedProp' } },
   description: 'should generate untyped prop',
 }
 
