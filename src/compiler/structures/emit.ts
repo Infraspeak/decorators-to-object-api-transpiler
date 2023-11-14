@@ -1,5 +1,10 @@
-import { CodeBlockWriter, MethodDeclaration, MethodDeclarationStructure } from 'ts-morph'
+import {
+  CodeBlockWriter,
+  MethodDeclaration,
+  MethodDeclarationStructure,
+} from 'ts-morph'
 import { buildDocs } from './docs'
+import {buildStatementDeclaration} from './method'
 
 export type Emit = Omit<MethodDeclarationStructure, 'kind'> & { event: string }
 
@@ -12,11 +17,13 @@ export function createEmit(emit: MethodDeclaration): Emit {
   structure.returnType = structure.returnType ?? 'void'
 
   if (structure.statements) {
-    const returnStatement = (structure.statements as string[]).find(s => s.includes('return '))
+    const returnStatement = (structure.statements as (string | object)[])
+        .filter(s => typeof s === 'string')
+        .find(s => (s as string).includes('return '))
     if (returnStatement) {
-      (structure.statements as string[]).pop()
+      (structure.statements as (string | object)[]).pop()
     }
-    (structure.statements as string[]).push(buildEmitStatement(eventName, parameters, returnStatement))
+    (structure.statements as string[]).push(buildEmitStatement(eventName, parameters, returnStatement as string))
   } else {
     structure.statements = buildEmitStatement(eventName, parameters)
   }
@@ -45,7 +52,9 @@ function buildEmitStatement(eventName: string, parameters?: string[], returnStat
 export function generateEmit(emit: Emit, writer: CodeBlockWriter): CodeBlockWriter {
   return writer
     .write(buildEmitMethodDeclaration(emit)).inlineBlock(() => {
-      (emit.statements as string[]).forEach(s => writer.writeLine(s))
+      (emit.statements as string[]).forEach(s => {
+        buildStatementDeclaration(s, writer)
+      })
     })
     .write(',').newLine()
 }
@@ -61,15 +70,15 @@ function buildEmitMethodDeclaration(emit: Emit, returnType?: string): string {
 /**
  * defining custom events in vue 2: https://v2.vuejs.org/v2/guide/components-custom-events.html
  * defining custom events in vue 3: https://vuejs.org/guide/components/events.html
- * 
+ *
  * TL;DR:
  * - Vue 2 recommends using kebab-case for custom event names.
  * - In Vue 3, using either camelCase or kebab-case for your custom event name does not limit its use in v-on. However, following JavaScript conventions, camelCase is more natural.
- * 
+ *
  */
 export function generateEmitValidator(emit: Emit, writer: CodeBlockWriter): CodeBlockWriter {
   buildDocs(emit, writer)
-  
+
   const payload = getEmitPayload(emit)
   return writer.write(`'${(emit.event)}' (${payload}): boolean`).inlineBlock(() => {
     writer.writeLine('// TODO add validator')

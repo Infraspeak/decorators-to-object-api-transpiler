@@ -52,6 +52,7 @@ export default class ExampleComponent extends Mixins(MyMixin) {
     // Watch
     @Watch('myDataOne', { immediate: true, deep: true })
     onMyDataOne(newVal: string, oldVal:string) {
+        const dummy = 'dummy'
         console.log(\`changed from \${oldVal} to \${newVal}!\`)
     }
 
@@ -66,6 +67,7 @@ export default class ExampleComponent extends Mixins(MyMixin) {
 
     @Emit('my-event-with-payload-return')
     emitMyEventWithPayloadReturn (num: number): string {
+        const dummy = 'dummy'
         this.myPrivateData = 'more more stuff'
         return this.myPrivateData
     }
@@ -343,10 +345,12 @@ export default defineComponent({
             this.$emit('my-event-with-payload-param', num)
         },
         emitMyEventWithPayloadReturn (num: number): void {
+            const dummy = 'dummy'
             this.myPrivateData = 'more more stuff'
             this.$emit('my-event-with-payload-return', this.myPrivateData, num)
         },
         onMyDataOne (newVal: string, oldVal: string) {
+            const dummy = 'dummy'
             console.log(\`changed from \${oldVal} to \${newVal}!\`)
         },
     },
