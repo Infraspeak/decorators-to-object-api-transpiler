@@ -82,10 +82,12 @@ export function generateOptionsSourceFile(inputSource: SourceFile, symbolTable: 
   const outputSource = new Project({ manipulationSettings }).createSourceFile(DUMMY_OUTPUT_PROJECT_NAME)
   // add imports
   outputSource.addImportDeclarations(generateImportDeclarationStructures(inputSource, symbolTable))
-  // types
+  // add types
   outputSource.addTypeAliases(inputSource.getTypeAliases().map(_ => _.getStructure()))
-  // interfaces
+  // add interfaces
   outputSource.addInterfaces(inputSource.getInterfaces().map(_ => _.getStructure()))
+  // add enums
+  outputSource.addEnums(inputSource.getEnums().map(_ => _.getStructure()))
 
   // add data types
   hasData(symbolTable) && outputSource.addTypeAlias(generateDataTypeDeclarationStructure(symbolTable))
