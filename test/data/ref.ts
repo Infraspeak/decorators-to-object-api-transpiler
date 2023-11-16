@@ -6,10 +6,10 @@ import { Ref } from '../../src/compiler/structures'
 const TEST_CLASS_COMPONENT_CODE =
 `export default class ExampleComponent extends mixins(MyMixin) {
   @Ref('myDiv')
-  readonly myDiv!: HTMLDivElement
+  readonly refMyDiv!: HTMLDivElement
 
   @Ref('myOtherDiv')
-  myOtherDiv!
+  refMyOtherDiv!
 }
 `
 
@@ -18,7 +18,7 @@ const [myDiv, myOtherDiv] = new Project()
     .getDescendantsOfKind(SyntaxKind.PropertyDeclaration)
 
 const myDivOptionsCode = 
-`myDiv (): HTMLDivElement {
+`refMyDiv (): HTMLDivElement {
     return this.$refs.myDiv as HTMLDivElement
 },
 `
@@ -26,12 +26,12 @@ const myDivOptionsCode =
 const refTestStructureMyDiv: TestCase<PropertyDeclaration, Ref> = {
   node: myDiv,
   code: myDivOptionsCode,
-  structure: { name: 'myDiv', isReadonly: true, type: 'HTMLDivElement', value: undefined },
+  structure: { name: 'refMyDiv', isReadonly: true, type: 'HTMLDivElement', value: undefined, key: 'myDiv' },
   description: 'should create ref from explicit declaration',
 }
 
 const myOtherDivOptionsCode = 
-`myOtherDiv () {
+`refMyOtherDiv () {
     return this.$refs.myOtherDiv
 },
 `
@@ -39,7 +39,7 @@ const myOtherDivOptionsCode =
 const refTestStructureMyOtherDiv: TestCase<PropertyDeclaration, Ref> = {
   node: myOtherDiv,
   code: myOtherDivOptionsCode,
-  structure: { name: 'myOtherDiv', isReadonly: false, type: undefined, value: undefined },
+  structure: { name: 'refMyOtherDiv', isReadonly: false, type: undefined, value: undefined, key: 'myOtherDiv' },
   description: 'should create ref from implicit declaration',
 }
 
