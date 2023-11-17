@@ -26,8 +26,8 @@ function buildMethodDeclaration(method: Method): string {
   return `${method.isAsync ? 'async ' : ''}${method.name} (${parameters})${buildMethodReturnTypeDeclaration(method)} `
 }
 
-function buildMethodParameterDeclaration({ name, type }: OptionalKind<ParameterDeclarationStructure>): string {
-  return name + (type ? `: ${type}` : '')
+function buildMethodParameterDeclaration({ name, type, initializer }: OptionalKind<ParameterDeclarationStructure>): string {
+  return name + (type ? `: ${type}` : '') + (initializer ? ` = ${initializer}` : '')
 }
 
 function buildMethodReturnTypeDeclaration(method: Method): string {
