@@ -33,7 +33,8 @@ export function createRef(ref: PropertyDeclaration): Ref {
 export function generateSimpleRef(ref: Ref, writer: CodeBlockWriter): CodeBlockWriter {
   return writer
     .write(`${ref.name} ()${ref.type ? `: ${ref.type}` : ''} `).inlineBlock(() => {
-      writer.writeLine(`return this.$refs.${ref.key}${ref.type ? ` as ${ref.type}` : ''}`)
+      writer.write(`return this.$refs.${ref.key}${ref.type ? ` as ${ref.type}` : ''}`)
+      writer.write(` // If the ${ref.type} component is already in Option API, we must declare "as typeof ${ref.type}"`)
     })
     .write(',').newLine()
 }
