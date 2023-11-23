@@ -31,12 +31,24 @@ export function createRef(ref: PropertyDeclaration): Ref {
 }
 
 export function generateSimpleRef(ref: Ref, writer: CodeBlockWriter): CodeBlockWriter {
+  writer.write(`${ref.name} ()`)
+
+  if (ref.type) {
+    writer.write(`: ComponentPublicInstance<${ref.type}>`)
+  }
+
+  writer.inlineBlock(() => {
+    writer.write(`return this.$refs.${ref.key}`)
+
+    if (ref.type) {
+      writer.write(` as ComponentPublicInstance<${ref.type}>`)
+      writer.write(` // If the ${ref.type} component is already in Option API, we must declare "as ComponentPublicInstance<typeof ${ref.type}>"`)
+    }
+  })
+
+  writer.write(',').newLine()
+
   return writer
-    .write(`${ref.name} ()${ref.type ? `: ${ref.type}` : ''} `).inlineBlock(() => {
-      writer.write(`return this.$refs.${ref.key}${ref.type ? ` as ${ref.type}` : ''}`)
-      writer.write(` // If the ${ref.type} component is already in Option API, we must declare "as typeof ${ref.type}"`)
-    })
-    .write(',').newLine()
 }
 
 /**

@@ -58,7 +58,7 @@ export function generateImportDeclarationStructures(inputSource: SourceFile, sym
   const vueImports: ImportDeclarationStructure[] = [
     {
       moduleSpecifier: 'vue',
-      namedImports: ['defineComponent'],
+      namedImports: ['defineComponent', 'ComponentPublicInstance'],
       kind: StructureKind.ImportDeclaration,
     },
   ]
