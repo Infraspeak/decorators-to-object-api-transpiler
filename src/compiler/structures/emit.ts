@@ -4,9 +4,9 @@ import {
   MethodDeclarationStructure,
 } from 'ts-morph'
 import { buildDocs } from './docs'
-import {buildStatementDeclaration} from './method'
+import {Method, buildMethodParameterDeclaration, buildStatementDeclaration} from './method'
 
-export type Emit = Omit<MethodDeclarationStructure, 'kind'> & { event: string }
+export type Emit = Method & { event: string }
 
 export function createEmit(emit: MethodDeclaration): Emit {
   const structure = emit.getStructure() as MethodDeclarationStructure
@@ -60,7 +60,7 @@ export function generateEmit(emit: Emit, writer: CodeBlockWriter): CodeBlockWrit
 }
 
 function getEmitPayload(emit: Emit): string {
-  return emit.parameters?.map(({ name, type }) => `${name}: ${type}`).join(', ') ?? ''
+  return emit.parameters?.map(buildMethodParameterDeclaration).join(', ') ?? ''
 }
 
 function buildEmitMethodDeclaration(emit: Emit, returnType?: string): string {
@@ -80,7 +80,7 @@ export function generateEmitValidator(emit: Emit, writer: CodeBlockWriter): Code
   buildDocs(emit, writer)
 
   const payload = getEmitPayload(emit)
-  return writer.write(`'${(emit.event)}' (${payload}): boolean`).inlineBlock(() => {
+  return writer.write(`'${(emit.event)}': (${payload}): boolean => `).inlineBlock(() => {
     writer.writeLine('// TODO add validator')
     writer.writeLine('return true')
   })

@@ -234,15 +234,15 @@ export default defineComponent({
     },
 
     emits: {
-        'my-event' (): boolean {
+        'my-event': (): boolean => {
             // TODO add validator
             return true
         },
-        'my-event-with-payload-param' (num: number): boolean {
+        'my-event-with-payload-param': (num: number): boolean => {
             // TODO add validator
             return true
         },
-        'my-event-with-payload-return' (num: number): boolean {
+        'my-event-with-payload-return': (num: number): boolean => {
             // TODO add validator
             return true
         },

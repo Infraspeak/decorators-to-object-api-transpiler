@@ -26,8 +26,22 @@ function buildMethodDeclaration(method: Method): string {
   return `${method.isAsync ? 'async ' : ''}${method.name} (${parameters})${buildMethodReturnTypeDeclaration(method)} `
 }
 
-function buildMethodParameterDeclaration({ name, type, initializer }: OptionalKind<ParameterDeclarationStructure>): string {
-  return name + (type ? `: ${type}` : '') + (initializer ? ` = ${initializer}` : '')
+export function buildMethodParameterDeclaration({ name, type, initializer, hasQuestionToken }: OptionalKind<ParameterDeclarationStructure>): string {
+  let declaration = name
+
+  if (type) {
+    if (hasQuestionToken) {
+      declaration += '?'
+    }
+
+    declaration += `: ${type}`
+  }
+
+  if (initializer) {
+    declaration += ` = ${initializer}`
+  }
+
+  return declaration
 }
 
 function buildMethodReturnTypeDeclaration(method: Method): string {
