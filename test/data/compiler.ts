@@ -179,7 +179,7 @@ export default class ExampleComponent extends Mixins(MyMixin) {
  */
 export const TEST_OPTIONS_COMPONENT_CODE =
 `import type { PropType } from 'vue'
-import { defineComponent } from 'vue'
+import { ComponentPublicInstance, defineComponent } from 'vue'
 
 import MyMixin from './MyMixin.vue'
 import NestedComponent from './NestedComponent.vue'
@@ -260,8 +260,11 @@ export default defineComponent({
         myDataOneUppercase () {
             return this.myDataOne.toUpperCase()
         },
-        myDiv (): HTMLDivElement {
-            return this.$refs.myDiv as HTMLDivElement
+        myDiv (): ComponentPublicInstance<HTMLDivElement> {
+            // If HTMLDivElement is not a Vue component, we must just declare "as HTMLDivElement".
+            // If HTMLDivElement is a Vue component, we must just declare "as ComponentPublicInstance<HTMLDivElement>".
+            // If HTMLDivElement is already in Option API, we must declare "as ComponentPublicInstance<typeof HTMLDivElement>".
+            return this.$refs.myDiv as ComponentPublicInstance<HTMLDivElement>
         },
         myOtherDiv () {
             return this.$refs.myOtherDiv
