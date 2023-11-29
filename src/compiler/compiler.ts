@@ -7,6 +7,7 @@ import { ESLint } from 'eslint'
 import { buildDefaultLinter, lintCode } from './linter'
 import { DUMMY_INPUT_PROJECT_NAME } from '../utils'
 import { cloneDeep } from 'lodash'
+import { findAndReplaceRefAccesses } from './structures'
 
 export type CompileOptions = {
   linter: ESLint
@@ -36,11 +37,14 @@ export async function compile(descriptor: SFCDescriptor, options?: CompileOption
   const optionsSyntaxProject = generateOptionsSourceFile(sourceFile, symbolTable)
 
   const optionSyntaxScript = optionsSyntaxProject.getText()
+
   if (options) {
     optionsDescriptor.script.content = await lintCode(compilerOptions.linter, optionSyntaxScript)
   } else {
     optionsDescriptor.script.content = optionSyntaxScript
   }
+
+  findAndReplaceRefAccesses(optionsDescriptor, symbolTable.refs)
 
   return optionsDescriptor
 }

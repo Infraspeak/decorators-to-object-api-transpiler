@@ -142,7 +142,6 @@ export function generateOptionsSourceFile(inputSource: SourceFile, symbolTable: 
         if (hasComputed(symbolTable)) {
           w.write('computed: ').inlineBlock(() => {
             symbolTable.getters.forEach(c => generateComputed(c, w))
-            symbolTable.refs.forEach(r => generateSimpleRef(r, w))
           })
             .write(',').newLine()
             .blankLine()
@@ -150,6 +149,7 @@ export function generateOptionsSourceFile(inputSource: SourceFile, symbolTable: 
         // methods & emits
         if (hasMethods(symbolTable)) {
           w.write('methods: ').inlineBlock(() => {
+            symbolTable.refs.forEach(r => generateSimpleRef(r, w))
             symbolTable.methods.forEach(m => generateMethod(m, w))
             symbolTable.emits.forEach(e => generateEmit(e, w))
             symbolTable.watch.forEach(({ handler }) => generateMethod(handler, w))

@@ -260,15 +260,6 @@ export default defineComponent({
         myDataOneUppercase () {
             return this.myDataOne.toUpperCase()
         },
-        myDiv (): ComponentPublicInstance<HTMLDivElement> {
-            // If HTMLDivElement is not a Vue component, we must just declare "as HTMLDivElement".
-            // If HTMLDivElement is a Vue component, we must just declare "as ComponentPublicInstance<HTMLDivElement>".
-            // If HTMLDivElement is already in Option API, we must declare "as ComponentPublicInstance<typeof HTMLDivElement>".
-            return this.$refs.myDiv as ComponentPublicInstance<HTMLDivElement>
-        },
-        myOtherDiv () {
-            return this.$refs.myOtherDiv
-        },
     },
 
     watch: {
@@ -305,6 +296,15 @@ export default defineComponent({
     },
 
     methods: {
+        getMyDiv (): ComponentPublicInstance<HTMLDivElement> {
+            // If HTMLDivElement is not a Vue component, we must just declare "as HTMLDivElement".
+            // If HTMLDivElement is a Vue component, we must just declare "as ComponentPublicInstance<HTMLDivElement>".
+            // If HTMLDivElement is already in Option API, we must declare "as ComponentPublicInstance<typeof HTMLDivElement>".
+            return this.$refs.myDiv as ComponentPublicInstance<HTMLDivElement>
+        },
+        getMyOtherDiv () {
+            return this.$refs.myOtherDiv
+        },
         /**
          * JSDOC block
          *
