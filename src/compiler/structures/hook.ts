@@ -9,6 +9,8 @@ const VUE_LIFE_CYCLE_HOOKS = [
   'updated',
   'beforeUnmount',
   'unmounted',
+  'destroyed',
+  'beforeDestroy',
 ] as const
 
 export type HookType = typeof VUE_LIFE_CYCLE_HOOKS[number]
