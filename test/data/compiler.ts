@@ -10,7 +10,10 @@ interface MyInterface {
 
 type CenasType = 'cenas' | 'outra cena' | 'outra cenas qualquer'
 
-// https://github.com/kaorun343/vue-property-decorator
+/**
+ * Component decorator
+ * See https://github.com/kaorun343/vue-property-decorator
+ */
 @Component({
     components: {
         NestedComponent,
@@ -25,7 +28,7 @@ export default class ExampleComponent extends Mixins(MyMixin) {
     @Ref('myOtherDiv')
     myOtherDiv!
 
-    // Props
+    // Default Boolean Prop
     @Prop({ type: Boolean, default: true })
     public defaultBoolean!: boolean
 
@@ -56,7 +59,7 @@ export default class ExampleComponent extends Mixins(MyMixin) {
         console.log(\`changed from \${oldVal} to \${newVal}!\`)
     }
 
-    // Emits
+    // Emits 'my-event'
     @Emit('my-event')
     emitMyEvent (): void {}
 
@@ -105,29 +108,36 @@ export default class ExampleComponent extends Mixins(MyMixin) {
         console.log('unmounted')
     }
 
-    // computed
+    // comment A
     get myDataOneUppercase () {
-        return this.myDataOne.toUpperCase()
+        // comment C
+        return this.myDataOne.toUpperCase() // comment D
     }
 
-    // methods
     /**
      * JSDOC block
      *
      * logSomething logs something
+     * @param something
      */
     logSomething (something: any): void {
         console.log(something)
     }
 
+    // Does math
     doMath(a: number, b: number): number {
-        return a + b
+        return a + b // returns
     }
 
     doSomethingWithRef() {
         this.myDiv.addEventListener('click', () => this.logSomething(this.doMath(1,1)))
     }
 
+    /**
+     * JSDOC block
+     *
+     * emitAllTheThings emits all the things
+     */
     emitAllTheThings (): void {
         this.emitMyEvent()
         this.emitMyEventWithPayloadParam(2)
@@ -197,6 +207,10 @@ type Data = {
     myPrivateData: any
 }
 
+/**
+ * Component decorator
+ * See https://github.com/kaorun343/vue-property-decorator
+ */
 export default defineComponent({
     name: 'ExampleComponent',
 
@@ -208,6 +222,7 @@ export default defineComponent({
     mixins: [MyMixin],
 
     props: {
+        // Default Boolean Prop
         defaultBoolean: {
             type: Boolean as PropType<boolean>,
             default: true,
@@ -234,6 +249,7 @@ export default defineComponent({
     },
 
     emits: {
+        // Emits 'my-event'
         'my-event': () => true,
         'my-event-with-payload-param': (num: number) => true,
         'my-event-with-payload-return': (num: number) => true,
@@ -248,8 +264,10 @@ export default defineComponent({
     },
 
     computed: {
+        // comment A
         myDataOneUppercase (): TODO /** TODO: Add the missing return type. Otherwise, the build may fail. */ {
-            return this.myDataOne.toUpperCase()
+            // comment C
+            return this.myDataOne.toUpperCase() // comment D
         },
     },
 
@@ -300,16 +318,23 @@ export default defineComponent({
          * JSDOC block
          *
          * logSomething logs something
+         * @param something
          */
         logSomething (something: any): void {
             console.log(something)
         },
+        // Does math
         doMath (a: number, b: number): number {
             return a + b
         },
         doSomethingWithRef () {
             this.getMyDiv().addEventListener('click', () => this.logSomething(this.doMath(1, 1)))
         },
+        /**
+         * JSDOC block
+         *
+         * emitAllTheThings emits all the things
+         */
         emitAllTheThings (): void {
             this.emitMyEvent()
             this.emitMyEventWithPayloadParam(2)
@@ -343,6 +368,7 @@ export default defineComponent({
             this.myPrivateData = 'more more stuff'
             this.$emit('my-event-with-payload-return', this.myPrivateData, num)
         },
+        // Watch
         onMyDataOne (newVal: string, oldVal: string) {
             const dummy = 'dummy'
             console.log(\`changed from \${oldVal} to \${newVal}!\`)

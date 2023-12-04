@@ -1,7 +1,39 @@
-import { Project, SourceFile, QuoteKind, ManipulationSettings, FormatCodeSettings, ts, TypeAliasDeclarationStructure, StructureKind, CodeBlockWriter, ImportDeclarationStructure } from 'ts-morph'
-import { DUMMY_OUTPUT_PROJECT_NAME } from '../utils'
-import { generateComponent, generateComputed, generateData, generateEmit, generateEmitValidator, generateMethod, generateMixin, generateProp, generateSimpleRef, generateWatch } from './structures'
-import { hasComputed, hasData, hasEmits, hasHooks, hasMethods, hasMixins, hasProps, hasWatch, SymbolTable } from './symbol-table'
+import {
+  CodeBlockWriter,
+  FormatCodeSettings,
+  ImportDeclarationStructure,
+  ManipulationSettings,
+  Project,
+  QuoteKind,
+  SourceFile,
+  StructureKind,
+  ts,
+  TypeAliasDeclarationStructure,
+} from 'ts-morph'
+import {DUMMY_OUTPUT_PROJECT_NAME} from '../utils'
+import {
+  generateComponent,
+  generateComputed,
+  generateData,
+  generateEmit,
+  generateEmitValidator,
+  generateMethod,
+  generateMixin,
+  generateProp,
+  generateSimpleRef,
+  generateWatch,
+} from './structures'
+import {
+  hasComputed,
+  hasData,
+  hasEmits,
+  hasHooks,
+  hasMethods,
+  hasMixins,
+  hasProps,
+  hasWatch,
+  SymbolTable,
+} from './symbol-table'
 
 const manipulationSettings: Partial<ManipulationSettings> = {
   useTrailingCommas: true,
@@ -21,14 +53,14 @@ const formatCodeSettings: FormatCodeSettings = {
 
 /**
  * This method generates a type declaration to be used as a return type of data () method, like so:
- * 
+ *
  * ```ts
  * type Data = {
  *    data1: number | null
  *    data2?: string
  *    readonly CONST_DATA: string
  * }
- * 
+ *
  * // ...
  * data(): Data {
  *    return {
@@ -69,7 +101,7 @@ export function generateImportDeclarationStructures(inputSource: SourceFile, sym
     kind: StructureKind.ImportDeclaration,
     isTypeOnly: true,
   })
-  
+
   return [
     ...vueImports,
     ...inputSource.getImportDeclarations()
@@ -95,6 +127,8 @@ export function generateOptionsSourceFile(inputSource: SourceFile, symbolTable: 
   // Component
   outputSource.addExportAssignment({
     isExportEquals: false,
+    leadingTrivia: symbolTable.component!.decoratorStructure?.leadingTrivia,
+    trailingTrivia: symbolTable.component!.decoratorStructure?.trailingTrivia,
     expression: (w) => {
       w.write('defineComponent(').inlineBlock(() => {
         // name & imported components

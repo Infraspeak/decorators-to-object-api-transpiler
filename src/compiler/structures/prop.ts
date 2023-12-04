@@ -1,5 +1,11 @@
-import { CodeBlockWriter, PropertyAssignment, PropertyDeclaration, PropertyDeclarationStructure, SyntaxKind } from 'ts-morph'
-import { buildDocs } from './docs'
+import {
+  CodeBlockWriter,
+  PropertyAssignment,
+  PropertyDeclaration,
+  PropertyDeclarationStructure,
+  SyntaxKind,
+} from 'ts-morph'
+import {buildComments} from './comments'
 
 const VUE_PROP_PROPERTY_IDENTIFIERS = [
   'type',
@@ -46,7 +52,7 @@ export type Prop = {
 }
 
 export function createProp(propertyDeclaration: PropertyDeclaration): Prop {
-  const structure = propertyDeclaration.getStructure()
+  const structure = getCommentedPropertyDeclaration(propertyDeclaration)
 
   const name = structure.name
   const isReadonly = !!structure.isReadonly
@@ -87,8 +93,8 @@ export function createProp(propertyDeclaration: PropertyDeclaration): Prop {
 }
 
 export function generateProp(prop: Prop, writer: CodeBlockWriter): CodeBlockWriter {
-  buildDocs(prop.structure, writer)
-  
+  buildComments(prop.structure, writer)
+
   return writer
     .write(`${prop.name}: `).inlineBlock(() => {
       prop.propType && writer.writeLine(`type: ${prop.propType} as PropType<${prop.nativeType}>,`)
@@ -107,4 +113,13 @@ function getPropertyInitializer(propertyAssignment: PropertyAssignment): string 
   return propertyAssignment.getInitializer()!.getText()
 }
 
+function getCommentedPropertyDeclaration(prop: PropertyDeclaration): PropertyDeclarationStructure {
+  const leadingComments = prop.getLeadingCommentRanges()
+  const trailingComments = prop.getTrailingCommentRanges()
+  const structure = prop.getStructure()
+
+  structure.leadingTrivia = leadingComments.map(c => c.getText()).join('\n')
+  structure.trailingTrivia = trailingComments.map(c => c.getText()).join('\n')
+  return structure
+}
 
