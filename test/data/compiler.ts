@@ -257,7 +257,7 @@ export default defineComponent({
     },
 
     computed: {
-        myDataOneUppercase () {
+        myDataOneUppercase (): TODO /** TODO: Add the missing return type. Otherwise, the build may fail. */ {
             return this.myDataOne.toUpperCase()
         },
     },
@@ -317,7 +317,7 @@ export default defineComponent({
             return a + b
         },
         doSomethingWithRef () {
-            this.myDiv.addEventListener('click', () => this.logSomething(this.doMath(1, 1)))
+            this.getMyDiv().addEventListener('click', () => this.logSomething(this.doMath(1, 1)))
         },
         emitAllTheThings (): void {
             this.emitMyEvent()

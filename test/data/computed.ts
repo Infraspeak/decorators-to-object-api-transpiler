@@ -20,7 +20,7 @@ const [myDataOneUppercaseGetter, literalReturnValueGetter] = new Project()
   .flatMap(_ => _.getChildrenOfKind(SyntaxKind.GetAccessor))
 
 const myDataOneUppercaseOptionsCode =
-`myDataOneUppercase() {
+`myDataOneUppercase(): TODO /** TODO: Add the missing return type. Otherwise, the build may fail. */{
     return this.myDataOne.toUpperCase()
 },
 `
