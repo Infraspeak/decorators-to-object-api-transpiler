@@ -1,15 +1,11 @@
-import {
-  CodeBlockWriter,
-  MethodDeclaration,
-  MethodDeclarationStructure,
-} from 'ts-morph'
-import { buildDocs } from './docs'
-import {Method, buildMethodParameterDeclaration, buildStatementDeclaration} from './method'
+import {CodeBlockWriter, MethodDeclaration, MethodDeclarationStructure} from 'ts-morph'
+import {buildMethodParameterDeclaration, buildStatementDeclaration, Method} from './method'
+import {buildComments} from './comments'
 
 export type Emit = Method & { event: string }
 
 export function createEmit(emit: MethodDeclaration): Emit {
-  const structure = emit.getStructure() as MethodDeclarationStructure
+  const structure = getCommentedEmit(emit)
   const [decorator] = structure.decorators!
 
   const eventName = (decorator.arguments as string[])[0]
@@ -77,8 +73,18 @@ function buildEmitMethodDeclaration(emit: Emit, returnType?: string): string {
  *
  */
 export function generateEmitValidator(emit: Emit, writer: CodeBlockWriter): CodeBlockWriter {
-  buildDocs(emit, writer)
+  buildComments(emit, writer)
 
   const payload = getEmitPayload(emit)
   return writer.write(`'${(emit.event)}': (${payload}) => true`).write(',').newLine()
+}
+
+function getCommentedEmit(emit: MethodDeclaration): MethodDeclarationStructure {
+  const leadingComments = emit.getLeadingCommentRanges()
+  const trailingComments = emit.getTrailingCommentRanges()
+  const structure = emit.getStructure()
+
+  structure.leadingTrivia = leadingComments.map(c => c.getText()).join('\n')
+  structure.trailingTrivia = trailingComments.map(c => c.getText()).join('\n')
+  return structure as MethodDeclarationStructure
 }

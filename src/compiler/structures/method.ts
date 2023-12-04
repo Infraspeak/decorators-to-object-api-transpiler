@@ -1,16 +1,28 @@
-import { CodeBlockWriter, FunctionDeclarationStructure, KindedStructure, MethodDeclaration, MethodDeclarationStructure, OptionalKind, ParameterDeclarationStructure, StatementStructures, StructureKind, VariableStatementStructure, WriterFunction } from 'ts-morph'
-import { buildDocs } from './docs'
+import {
+  CodeBlockWriter,
+  FunctionDeclarationStructure,
+  KindedStructure,
+  MethodDeclaration,
+  MethodDeclarationStructure,
+  OptionalKind,
+  ParameterDeclarationStructure,
+  StatementStructures,
+  StructureKind,
+  VariableStatementStructure,
+  WriterFunction,
+} from 'ts-morph'
+import {buildComments} from './comments'
 
 export type Method = Omit<MethodDeclarationStructure, 'kind'>
 
 export function createMethod(method: MethodDeclaration): Method {
-  const structure = method.getStructure() as MethodDeclarationStructure
+  const structure = getCommentedMethod(method)
 
   return structure
 }
 
 export function generateMethod(method: Method, writer: CodeBlockWriter): CodeBlockWriter {
-  buildDocs(method, writer)
+  buildComments(method, writer)
 
   return writer
     .write(buildMethodDeclaration(method)).inlineBlock(() => {
@@ -80,3 +92,12 @@ export function buildStatementDeclaration(statement: string | WriterFunction | S
   }
 }
 
+function getCommentedMethod(method: MethodDeclaration): MethodDeclarationStructure {
+  const leadingComments = method.getLeadingCommentRanges()
+  const trailingComments = method.getTrailingCommentRanges()
+  const structure = method.getStructure()
+
+  structure.leadingTrivia = leadingComments.map(c => c.getText()).join('\n')
+  structure.trailingTrivia = trailingComments.map(c => c.getText()).join('\n')
+  return structure as MethodDeclarationStructure
+}
