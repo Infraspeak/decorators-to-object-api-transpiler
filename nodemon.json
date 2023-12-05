@@ -3,5 +3,5 @@
     "src"
   ],
   "ext": "ts",
-  "exec": "ts-node ./src/index.ts -f ../web-core-client/src/components/account/document/AccountDocument.vue"
+  "exec": "ts-node ./src/index.ts -f vue/NestedComponent.vue"
 }
