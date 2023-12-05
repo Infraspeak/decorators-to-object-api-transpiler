@@ -13,9 +13,22 @@ export function createEmit(emit: MethodDeclaration): Emit {
   structure.returnType = structure.returnType ?? 'void'
 
   if (structure.statements) {
-    const returnStatement = (structure.statements as (string | object)[])
+
+    const returnStatements = (structure.statements as (string | object)[])
         .filter(s => typeof s === 'string')
-        .find(s => (s as string).includes('return '))
+        .filter(s => (s as string).includes('return '))
+
+    if(returnStatements.length > 1) {
+      throw new Error(`
+       Multiple return statements found on '${emit.getName()}' method.
+       Cannot convert to Options API.
+       Please refactor the original method in order to have
+       a single return statement and try again.
+       `)
+    }
+
+    const returnStatement = returnStatements.pop()
+
     if (returnStatement) {
       (structure.statements as (string | object)[]).pop()
     }
