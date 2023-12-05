@@ -234,18 +234,9 @@ export default defineComponent({
     },
 
     emits: {
-        'my-event': (): boolean => {
-            // TODO add validator
-            return true
-        },
-        'my-event-with-payload-param': (num: number): boolean => {
-            // TODO add validator
-            return true
-        },
-        'my-event-with-payload-return': (num: number): boolean => {
-            // TODO add validator
-            return true
-        },
+        'my-event': () => true,
+        'my-event-with-payload-param': (num: number) => true,
+        'my-event-with-payload-return': (num: number) => true,
     },
 
     data (): Data {

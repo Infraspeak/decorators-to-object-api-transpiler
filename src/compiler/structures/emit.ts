@@ -80,9 +80,5 @@ export function generateEmitValidator(emit: Emit, writer: CodeBlockWriter): Code
   buildDocs(emit, writer)
 
   const payload = getEmitPayload(emit)
-  return writer.write(`'${(emit.event)}': (${payload}): boolean => `).inlineBlock(() => {
-    writer.writeLine('// TODO add validator')
-    writer.writeLine('return true')
-  })
-  .write(',').newLine()
+  return writer.write(`'${(emit.event)}': (${payload}) => true`).write(',').newLine()
 }
