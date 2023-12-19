@@ -1,6 +1,6 @@
-import { MethodDeclaration, Project, SyntaxKind } from "ts-morph"
-import { DUMMY_TEST_FILE, TestCase } from "."
-import { Hook } from "../../src/compiler/structures"
+import { MethodDeclaration, Project, SyntaxKind } from 'ts-morph'
+import { DUMMY_TEST_FILE, TestCase } from '.'
+import { Hook } from '../../src/compiler/structures'
 
 const TEST_CLASS_COMPONENT_CODE =
 `export default class ExampleComponent extends Vue {
@@ -53,11 +53,11 @@ const beforeCreateTesCase: TestCase<MethodDeclaration, Hook> = {
   code: beforeCreateCode,
   structure: {
     name: 'beforeCreate',
-    statements: [`console.warn('beforeCreate')`],
     returnType: 'void',
-    parameters: []
+    parameters: [],
+    bodyText: 'console.warn(\'beforeCreate\')',
   },
-  description: 'should generate beforeCreate hook'
+  description: 'should generate beforeCreate hook',
 }
 
 const createdCode =
@@ -71,11 +71,11 @@ const createdTesCase: TestCase<MethodDeclaration, Hook> = {
   code: createdCode,
   structure: {
     name: 'created',
-    statements: [`console.warn('created')`],
     returnType: 'void',
-    parameters: []
+    parameters: [],
+    bodyText: 'console.warn(\'created\')',
   },
-  description: 'should generate created hook'
+  description: 'should generate created hook',
 }
 
 const beforeMountCode =
@@ -89,11 +89,11 @@ const beforeMountTesCase: TestCase<MethodDeclaration, Hook> = {
   code: beforeMountCode,
   structure: {
     name: 'beforeMount',
-    statements: [`console.warn('beforeMount')`],
     returnType: 'void',
-    parameters: []
+    parameters: [],
+    bodyText: 'console.warn(\'beforeMount\')',
   },
-  description: 'should generate beforeMount hook'
+  description: 'should generate beforeMount hook',
 }
 
 const mountedCode =
@@ -107,11 +107,11 @@ const mountedTesCase: TestCase<MethodDeclaration, Hook> = {
   code: mountedCode,
   structure: {
     name: 'mounted',
-    statements: [`console.warn('mounted')`],
     returnType: 'void',
-    parameters: []
+    parameters: [],
+    bodyText: 'console.warn(\'mounted\')',
   },
-  description: 'should generate mounted hook'
+  description: 'should generate mounted hook',
 }
 
 const beforeUpdateCode =
@@ -125,11 +125,11 @@ const beforeUpdateTestCase: TestCase<MethodDeclaration, Hook> = {
   code: beforeUpdateCode,
   structure: {
     name: 'beforeUpdate',
-    statements: [`console.warn('beforeUpdate')`],
     returnType: 'void',
-    parameters: []
+    parameters: [],
+    bodyText: 'console.warn(\'beforeUpdate\')',
   },
-  description: 'should generate beforeUpdate hook'
+  description: 'should generate beforeUpdate hook',
 }
 
 const updatedCode =
@@ -143,11 +143,11 @@ const updatedTestCase: TestCase<MethodDeclaration, Hook> = {
   code: updatedCode,
   structure: {
     name: 'updated',
-    statements: [`this.refChild.method1(this.data4)`],
     returnType: 'void',
-    parameters: []
+    parameters: [],
+    bodyText: 'this.refChild.method1(this.data4)',
   },
-  description: 'should generate updated hook'
+  description: 'should generate updated hook',
 }
 
 const beforeDestroyCode =
@@ -161,11 +161,11 @@ const beforeDestroyTestCase: TestCase<MethodDeclaration, Hook> = {
   code: beforeDestroyCode,
   structure: {
     name: 'beforeDestroy',
-    statements: [`console.warn('beforeDestroy')`],
     returnType: 'void',
-    parameters: []
+    parameters: [],
+    bodyText: 'console.warn(\'beforeDestroy\')',
   },
-  description: 'should generate beforeDestroy hook'
+  description: 'should generate beforeDestroy hook',
 }
 
 const destroyedCode =
@@ -179,11 +179,11 @@ const beforeDestroyCodeTestCase: TestCase<MethodDeclaration, Hook> = {
   code: destroyedCode,
   structure: {
     name: 'destroyed',
-    statements: [`console.warn('destroyed')`],
     returnType: 'void',
-    parameters: []
+    parameters: [],
+    bodyText: 'console.warn(\'destroyed\')',
   },
-  description: 'should generate destroyed hook'
+  description: 'should generate destroyed hook',
 }
 
 export const HOOK_TEST_CASES = [

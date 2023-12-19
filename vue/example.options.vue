@@ -114,12 +114,7 @@
                 this.$emit('my-event')
             },
             emitMyEventWithPayloadParam (num: number): void {
-                this.myDataOne = 'outra cena'
                 this.$emit('my-event-with-payload-param', num)
-            },
-            emitMyEventWithPayloadReturn (num: number): void {
-                this.myPrivateData = 'more more stuff'
-                this.$emit('my-event-with-payload-return', this.myPrivateData, num)
             },
             // Methods
             logSomething (something: any): void {

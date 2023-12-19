@@ -64,15 +64,15 @@ export default class ExampleComponent extends Mixins(MyMixin) {
     emitMyEvent (): void {}
 
     @Emit('my-event-with-payload-param')
-    emitMyEventWithPayloadParam (num: number): void {
-        this.myDataOne = 'outra cena'
-    }
+    emitMyEventWithPayloadParam (num: number): void {}
 
     @Emit('my-event-with-payload-return')
-    emitMyEventWithPayloadReturn (num: number): string {
-        const dummy = 'dummy'
-        this.myPrivateData = 'more more stuff'
-        return this.myPrivateData
+    emitMyEventWithPayloadReturn (num: number): MyObject {
+        const myPropertyValue = 4 * num
+
+        return {
+            myProperty: myPropertyValue,
+        }
     }
 
     // hooks
@@ -126,7 +126,7 @@ export default class ExampleComponent extends Mixins(MyMixin) {
 
     // Does math
     doMath(a: number, b: number): number {
-        return a + b // returns
+        return a + b
     }
 
     doSomethingWithRef() {
@@ -142,26 +142,6 @@ export default class ExampleComponent extends Mixins(MyMixin) {
         this.emitMyEvent()
         this.emitMyEventWithPayloadParam(2)
         this.emitMyEventWithPayloadReturn(2)
-    }
-
-    async doSomethingAsync(): CenasType | undefined {
-        try {
-            const cenas = await fetchCenas()
-            return cenas
-        } catch (_error) {
-            console.error(_error)
-        }
-        const t = (blah: number) => {
-            const hehe = 'hjehe'
-        }
-
-        function a(blah: number) {
-            return 'blah' + blah
-        }
-
-        const cenas =
-            await fetchOutraCena()
-        return cenas
     }
 }
 `
@@ -252,7 +232,7 @@ export default defineComponent({
         // Emits 'my-event'
         'my-event': () => true,
         'my-event-with-payload-param': (num: number) => true,
-        'my-event-with-payload-return': (num: number) => true,
+        'my-event-with-payload-return': (arg: MyObject, num: number) => true,
     },
 
     data (): Data {
@@ -340,33 +320,19 @@ export default defineComponent({
             this.emitMyEventWithPayloadParam(2)
             this.emitMyEventWithPayloadReturn(2)
         },
-        async doSomethingAsync (): CenasType | undefined {
-            try {
-                const cenas = await fetchCenas()
-                return cenas
-            } catch (_error) {
-                console.error(_error)
-            }
-            const t = (blah: number) => {
-                const hehe = 'hjehe'
-            }
-            function a (blah: number) {
-                return 'blah' + blah
-            }
-            const cenas = await fetchOutraCena()
-            return cenas
-        },
+        // Emits 'my-event'
         emitMyEvent (): void {
             this.$emit('my-event')
         },
         emitMyEventWithPayloadParam (num: number): void {
-            this.myDataOne = 'outra cena'
             this.$emit('my-event-with-payload-param', num)
         },
         emitMyEventWithPayloadReturn (num: number): void {
-            const dummy = 'dummy'
-            this.myPrivateData = 'more more stuff'
-            this.$emit('my-event-with-payload-return', this.myPrivateData, num)
+            const myPropertyValue = 4 * num
+
+            this.$emit('my-event-with-payload-return', {
+                myProperty: myPropertyValue,
+            }, num)
         },
         // Watch
         onMyDataOne (newVal: string, oldVal: string) {

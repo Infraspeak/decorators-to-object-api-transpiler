@@ -28,7 +28,11 @@ const myDataOneUppercaseOptionsCode =
 const myDataOneUppercaseComputedTestCase: TestCase<GetAccessorDeclaration, Computed> = {
   node: myDataOneUppercaseGetter,
   code: myDataOneUppercaseOptionsCode,
-  structure: { name: 'myDataOneUppercase', returnType: undefined, statements: ['return this.myDataOne.toUpperCase()'] },
+   structure: {
+    name: 'myDataOneUppercase',
+    returnType: undefined,
+    bodyText: 'return this.myDataOne.toUpperCase()',
+  },
   description: 'should create computed property from implicit getter',
 }
 
@@ -41,7 +45,11 @@ const literalReturnValueOptionsCode =
 const literalReturnValueComputedTestCase: TestCase<GetAccessorDeclaration, Computed> = {
   node: literalReturnValueGetter,
   code: literalReturnValueOptionsCode,
-  structure: { name: 'literalReturnValue', returnType: 'boolean', statements: ['return !false'] },
+  structure: {
+    name: 'literalReturnValue',
+    returnType: 'boolean',
+    bodyText: 'return !false',
+  },
   description: 'should create computed property from explicit getter',
 }
 

@@ -1,12 +1,14 @@
 import {CodeBlockWriter, GetAccessorDeclaration, GetAccessorDeclarationStructure} from 'ts-morph'
-import {buildStatementDeclaration} from './method'
 import {buildComments} from './comments'
 
-export type Computed = Omit<GetAccessorDeclarationStructure, 'kind'>
+export type Computed = Omit<GetAccessorDeclarationStructure, 'kind'> & { bodyText: string }
 
 export function createComputed(computed: GetAccessorDeclaration): Computed {
   const structure: GetAccessorDeclarationStructure = getCommentedAccessor(computed)
-  return structure
+  return {
+    ...structure,
+    bodyText: computed.getBodyText()!,
+  }
 }
 
 export function generateComputed(computed: Computed, writer: CodeBlockWriter): CodeBlockWriter {
@@ -21,9 +23,7 @@ export function generateComputed(computed: Computed, writer: CodeBlockWriter): C
   }
 
   writer.inlineBlock(() => {
-    (computed.statements as string[]).forEach(s => {
-      buildStatementDeclaration(s, writer)
-    })
+    writer.write(computed.bodyText)
   })
 
   writer.write(',').newLine()

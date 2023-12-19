@@ -372,8 +372,6 @@ export default class ExampleComponent extends mixins(MyMixin) {
 
     @Emit('my-event-with-payload-return')
     emitMyEventWithPayloadReturn (num: number): string {
-        this.myPrivateData = 'more more stuff'
-        return this.myPrivateData
     }
 
     // computed
@@ -495,12 +493,10 @@ export default defineComponent({
             this.$emit('my-event')
         },
         emitMyEventWithPayloadParam (num: number): void {
-            this.myDataOne = 'other stuff'
             this.$emit('my-event-with-payload-param', num)
         },
         emitMyEventWithPayloadReturn (num: number): void {
-            this.myPrivateData = 'more more stuff'
-            this.$emit('my-event-with-payload-return', this.myPrivateData, num)
+            this.$emit('my-event-with-payload-return', num)
         },
         // Methods
         logSomething (something: any): void {

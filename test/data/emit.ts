@@ -8,15 +8,10 @@ const TEST_CLASS_COMPONENT_CODE =
   emitMyEvent (): void {}
 
   @Emit('my-event-with-payload-param')
-  emitMyEventWithPayloadParam (num: number): void {
-      this.myDataOne = 'outra cena'
-  }
+  emitMyEventWithPayloadParam (num: number): void {}
 
   @Emit('my-event-with-payload-return')
-  emitMyEventWithPayloadReturn (num: number): string {
-    this.myPrivateData = 'more more stuff'
-    return this.myPrivateData
-  }
+  emitMyEventWithPayloadReturn (num: number, myObject: MyObject): void {}
 }
 `
 
@@ -35,17 +30,16 @@ const emitMyEventTestCase: TestCase<MethodDeclaration, Emit> = {
   code: emitMyEventCode,
   structure: {
     name: 'emitMyEvent',
-    statements: ['this.$emit(\'my-event\')'],
-    event: 'my-event',
+    eventName: 'my-event',
     returnType: 'void',
-    parameters: [],
+    emitArguments: [],
+    bodyText: 'this.$emit(\'my-event\')',
   },
   description: 'should generate basic emit event with no params or return',
 }
 
 const emitMyEventWithPayloadParamCode = 
 `emitMyEventWithPayloadParam (num: number): void {
-    this.myDataOne = 'outra cena'
     this.$emit('my-event-with-payload-param', num)
 },
 `
@@ -55,20 +49,19 @@ const emitMyEventWithPayloadParamTestCase: TestCase<MethodDeclaration, Emit> = {
   code: emitMyEventWithPayloadParamCode,
   structure: {
     name: 'emitMyEventWithPayloadParam',
-    statements: ['this.myDataOne = \'outra cena\'', 'this.$emit(\'my-event-with-payload-param\', num)'],
     returnType: 'void',
-    event: 'my-event-with-payload-param',
-    parameters: [
+    eventName: 'my-event-with-payload-param',
+    emitArguments: [
       { name: 'num', type: 'number' },
     ],
+    bodyText: 'this.$emit(\'my-event-with-payload-param\', num)',
   },
   description: 'should generate emit event with params and no return',
 }
 
 const emitMyEventWithPayloadReturnCode = 
-`emitMyEventWithPayloadReturn (num: number): void {
-    this.myPrivateData = 'more more stuff'
-    this.$emit('my-event-with-payload-return', this.myPrivateData, num)
+`emitMyEventWithPayloadReturn (num: number, myObject: MyObject): void {
+    this.$emit('my-event-with-payload-return', num, myObject)
 },
 `
 
@@ -77,12 +70,13 @@ const emitMyEventWithPayloadReturnTestCase: TestCase<MethodDeclaration, Emit> = 
   code: emitMyEventWithPayloadReturnCode,
   structure: {
     name: 'emitMyEventWithPayloadReturn',
-    statements: ['this.myPrivateData = \'more more stuff\'', 'this.$emit(\'my-event-with-payload-return\', this.myPrivateData, num)'],
-    event: 'my-event-with-payload-return',
-    returnType: 'string',
-    parameters: [
+    eventName: 'my-event-with-payload-return',
+    returnType: 'void',
+    emitArguments: [
       { name: 'num', type: 'number' },
+      { name: 'myObject', type: 'MyObject' },
     ],
+    bodyText: 'this.$emit(\'my-event-with-payload-return\', num, myObject)',
   },
   description: 'should generate emit event with params or return',
 }

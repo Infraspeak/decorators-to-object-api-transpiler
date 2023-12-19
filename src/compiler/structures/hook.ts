@@ -19,14 +19,17 @@ export function isHookType(name: string): name is HookType {
   return VUE_LIFE_CYCLE_HOOKS.includes(name as HookType)
 }
 
-export type Hook = Omit<MethodDeclarationStructure, 'kind'>
+export type Hook = Omit<MethodDeclarationStructure, 'kind'> & { bodyText: string }
 
 export function createHook(hook: MethodDeclaration): Hook {
   const structure = hook.getStructure() as MethodDeclarationStructure
 
   structure.returnType = structure.returnType ?? 'void'
 
-  return structure
+  return {
+    ...structure,
+    bodyText: hook.getBodyText()!,
+  }
 }
 
 // use the same functions as method.ts

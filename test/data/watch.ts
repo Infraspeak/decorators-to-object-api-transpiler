@@ -34,8 +34,8 @@ const onData1ChangeTestCase: TestCase<MethodDeclaration, Watch> = {
     handler: {
       name: 'onData1Change',
       parameters: [],
-      statements: ['this.data3++'],
       returnType: 'void',
+      bodyText: 'this.data3++',
     },
   },
   description: 'should create watch from method without parameters or options',
@@ -57,8 +57,8 @@ const onData2ChangeTestCase: TestCase<MethodDeclaration, Watch> = {
     handler: {
       name: 'onData2Change',
       parameters: [{ name: 'newVal', type: 'string'}, { name: 'oldVal', type: 'string'}],
-      statements: ['this.data3++'],
       returnType: 'void',
+      bodyText: 'this.data3++',
     },
     immediate: true,
     deep: true,

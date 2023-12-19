@@ -57,15 +57,7 @@
         emitMyEvent (): void {}
 
         @Emit('my-event-with-payload-param')
-        emitMyEventWithPayloadParam (num: number): void {
-            this.myDataOne = 'outra cena'
-        }
-
-        @Emit('my-event-with-payload-return')
-        emitMyEventWithPayloadReturn (num: number): string {
-            this.myPrivateData = 'more more stuff'
-            return this.myPrivateData
-        }
+        emitMyEventWithPayloadParam (num: number): void {}
 
         // hooks
         beforeCreate() {

@@ -1,8 +1,6 @@
-import {CodeBlockWriter} from 'ts-morph'
-import {Computed} from './computed'
-import {Method} from './method'
+import {CodeBlockWriter, Structure} from 'ts-morph'
 
-export function buildComments(structure: Computed | Method, writer: CodeBlockWriter): void {
+export function buildComments(structure: Structure, writer: CodeBlockWriter): void {
   if(structure.leadingTrivia?.length) {
     writer.writeLine(fixIndent(structure.leadingTrivia.toString()))
   }
