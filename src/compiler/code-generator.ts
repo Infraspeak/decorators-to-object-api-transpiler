@@ -1,6 +1,7 @@
 import {
   CodeBlockWriter,
   FormatCodeSettings,
+  ImportDeclaration,
   ImportDeclarationStructure,
   ManipulationSettings,
   Project,
@@ -104,8 +105,8 @@ export function generateImportDeclarationStructures(inputSource: SourceFile, sym
   return [
     ...vueImports,
     ...inputSource.getImportDeclarations()
-      .map(_ => _.getStructure())
-      .filter(_ => _.moduleSpecifier !== 'vue-property-decorator'),
+      .filter(_ => _.getModuleSpecifier().getText() !== 'vue-property-decorator')
+      .map(_ => getCommentedImportDeclarationStructure(_)),
   ]
 }
 
@@ -204,4 +205,14 @@ export function generateOptionsSourceFile(inputSource: SourceFile, symbolTable: 
   outputSource.formatText(formatCodeSettings)
 
   return outputSource
+}
+
+function getCommentedImportDeclarationStructure(importDeclaration: ImportDeclaration): ImportDeclarationStructure {
+  const leadingComments = importDeclaration.getLeadingCommentRanges()
+  const trailingComments = importDeclaration.getTrailingCommentRanges()
+  const structure = importDeclaration.getStructure()
+
+  structure.leadingTrivia = leadingComments.map(c => c.getText()).join('\n')
+  structure.trailingTrivia = trailingComments.map(c => c.getText()).join('\n')
+  return structure
 }

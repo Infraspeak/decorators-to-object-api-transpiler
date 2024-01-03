@@ -1,7 +1,10 @@
 export const TEST_CLASS_COMPONENT_CODE =
 `import { Component, Prop, Vue, Ref, Emit, Watch, Mixins } from 'vue-property-decorator'
 import NestedComponent from './NestedComponent.vue'
+// comment C
 import AnotherNestedComponent from './NestedComponent.vue'
+// comment A
+// comment B
 import MyMixin from './MyMixin.vue'
 
 interface MyInterface {
@@ -171,8 +174,11 @@ export const TEST_OPTIONS_COMPONENT_CODE =
 `import type { PropType } from 'vue'
 import { ComponentPublicInstance, defineComponent } from 'vue'
 
+// comment A
+// comment B
 import MyMixin from './MyMixin.vue'
 import NestedComponent from './NestedComponent.vue'
+// comment C
 import AnotherNestedComponent from './NestedComponent.vue'
 
 type CenasType = 'cenas' | 'outra cena' | 'outra cenas qualquer'
