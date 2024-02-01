@@ -185,7 +185,7 @@ export function generateOptionsSourceFile(inputSource: SourceFile, symbolTable: 
           w.write('methods: ').inlineBlock(() => {
             symbolTable.refs.forEach(r => generateSimpleRef(r, w))
             symbolTable.methods.forEach(m => generateMethod(m, w))
-            symbolTable.emits.forEach(e => generateMethod(e, w))
+            symbolTable.emits.forEach(e => generateMethod(e, w, false))
             symbolTable.watch.forEach(({ handler }) => generateMethod(handler, w))
           })
             .write(',').newLine()

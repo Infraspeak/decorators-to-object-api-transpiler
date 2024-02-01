@@ -18,8 +18,10 @@ export function createMethod(method: MethodDeclaration): Method {
   }
 }
 
-export function generateMethod(method: Method, writer: CodeBlockWriter): CodeBlockWriter {
-  buildComments(method, writer)
+export function generateMethod(method: Method, writer: CodeBlockWriter, includeComments = true): CodeBlockWriter {
+  if (includeComments) {
+    buildComments(method, writer)
+  }
 
   return writer
     .write(buildMethodDeclaration(method)).inlineBlock(() => {

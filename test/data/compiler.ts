@@ -326,7 +326,6 @@ export default defineComponent({
             this.emitMyEventWithPayloadParam(2)
             this.emitMyEventWithPayloadReturn(2)
         },
-        // Emits 'my-event'
         emitMyEvent (): void {
             this.$emit('my-event')
         },
