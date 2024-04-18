@@ -61,22 +61,21 @@ export function generateSimpleRef(ref: Ref, writer: CodeBlockWriter): CodeBlockW
   writer.write(`${getRefMethodName(ref.name)} ()`)
 
   if (ref.type) {
-    writer.write(`: ComponentPublicInstance<${ref.type}> `)
+    writer.write(`: ${ref.type} `)
   } else {
     writer.write(' ')
   }
 
   writer.inlineBlock(() => {
     if (ref.type) {
-      writer.writeLine(`// If ${ref.type} is not a Vue component, we must just declare "as ${ref.type}".`)
-      writer.writeLine(`// If ${ref.type} is a Vue component, we must just declare "as ComponentPublicInstance<${ref.type}>".`)
-      writer.writeLine(`// If ${ref.type} is already in Option API, we must declare "as ComponentPublicInstance<typeof ${ref.type}>".`)
+      writer.writeLine(`// If ${ref.type} is an Options API Vue component, it can be declare with "as InstanceType<typeof ${ref.type}>".`)
+      writer.writeLine(`// Otherwise, it can be declared just with "as ${ref.type}".`)
     }
 
     writer.write(`return this.$refs.${ref.key}`)
 
     if (ref.type) {
-      writer.write(` as ComponentPublicInstance<${ref.type}>`)
+      writer.write(` as ${ref.type}`)
     }
   })
 

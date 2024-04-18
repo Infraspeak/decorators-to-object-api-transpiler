@@ -172,7 +172,7 @@ export default class ExampleComponent extends Mixins(MyMixin) {
  */
 export const TEST_OPTIONS_COMPONENT_CODE =
 `import type { PropType } from 'vue'
-import { ComponentPublicInstance, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 
 // comment A
 // comment B
@@ -291,11 +291,10 @@ export default defineComponent({
     },
 
     methods: {
-        getMyDiv (): ComponentPublicInstance<HTMLDivElement> {
-            // If HTMLDivElement is not a Vue component, we must just declare "as HTMLDivElement".
-            // If HTMLDivElement is a Vue component, we must just declare "as ComponentPublicInstance<HTMLDivElement>".
-            // If HTMLDivElement is already in Option API, we must declare "as ComponentPublicInstance<typeof HTMLDivElement>".
-            return this.$refs.myDiv as ComponentPublicInstance<HTMLDivElement>
+        getMyDiv (): HTMLDivElement {
+            // If HTMLDivElement is an Options API Vue component, it can be declare with "as InstanceType<typeof HTMLDivElement>".
+            // Otherwise, it can be declared just with "as HTMLDivElement".
+            return this.$refs.myDiv as HTMLDivElement
         },
         getMyOtherDiv () {
             return this.$refs.myOtherDiv
