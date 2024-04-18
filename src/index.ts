@@ -66,7 +66,7 @@ const main = async (): Promise<void> => {
       return Promise.resolve()
     }
 
-    const { filepath } = writeVueComponent(c, { overwrite })
+    const { filepath } = writeVueComponent(c)
     try {
       if (linter) {
         if (!silent) logger.info(`\t${filepath}`)

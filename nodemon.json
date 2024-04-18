@@ -3,5 +3,5 @@
     "src"
   ],
   "ext": "ts",
-  "exec": "ts-node ./src/index.ts -f ../web-core-client/src/views/management/suppliers/components/filters/ScreenManagementSuppliersFilters.vue"
+  "exec": "ts-node ./src/index.ts -f ../web-core-client/src/components/table/gatekeeper/TableGatekeeper.vue"
 }

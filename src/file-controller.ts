@@ -1,22 +1,11 @@
 import { readFileSync, writeFileSync } from 'fs'
 import { parseComponent, SFCDescriptor } from 'vue-sfc-parser'
-import { generatedFileSuffix } from './config'
 import { logger } from './logger'
 
 export interface VueComponent {
   descriptor: SFCDescriptor,
   filepath: string,
 }
-
-export type WriteVueComponentOptions = {
-  overwrite: boolean
-  fileSuffix?: string
-}
-
-const writeVueComponentDefaultOptions: WriteVueComponentOptions = {
-  overwrite: false,
-  fileSuffix: generatedFileSuffix,
-} as const
 
 export function buildVueComponent(filepath: string): VueComponent | undefined {
   const fileContent = readFileSync(filepath).toString()
@@ -41,19 +30,11 @@ function buildVueFileContent(component: VueComponent): string {
   return content
 }
 
-export function writeVueComponent(
-  component: VueComponent,
-  options: WriteVueComponentOptions = writeVueComponentDefaultOptions,
-): VueComponent {
-  // filepath: MyComponent.stuff.some.stuff.vue
-  // optionsFilename: MyComponent.stuff.some.stuff.options.vue
-  const filepath = options.overwrite
-    ? component.filepath
-    : [
-      ...component.filepath.split('.').slice(0, -1),
-      options.fileSuffix ?? generatedFileSuffix,
-      'vue',
-    ].join('.')
+export function writeVueComponent(component: VueComponent): VueComponent {
+  const filepath = [
+    ...component.filepath.split('.').slice(0, -1),
+    'vue',
+  ].join('.')
 
   writeFileSync(filepath, buildVueFileContent(component))
 
