@@ -58,7 +58,7 @@ export function createRef(ref: PropertyDeclaration): Ref {
 }
 
 export function generateSimpleRef(ref: Ref, writer: CodeBlockWriter): CodeBlockWriter {
-  writer.write(`${getRefMethodName(ref.name)} ()`)
+  writer.write(`${getRefMethodName(ref.name)} () as InstanceType<typeof ${ref.type}>`)
 
   if (ref.type) {
     writer.write(`: ${ref.type} `)
@@ -67,15 +67,10 @@ export function generateSimpleRef(ref: Ref, writer: CodeBlockWriter): CodeBlockW
   }
 
   writer.inlineBlock(() => {
-    if (ref.type) {
-      writer.writeLine(`// If ${ref.type} is an Options API Vue component, it can be declare with "as InstanceType<typeof ${ref.type}>".`)
-      writer.writeLine(`// Otherwise, it can be declared just with "as ${ref.type}".`)
-    }
-
     writer.write(`return this.$refs.${ref.key}`)
 
     if (ref.type) {
-      writer.write(` as ${ref.type}`)
+      writer.write(` as InstanceType<typeof ${ref.type}>`)
     }
   })
 
