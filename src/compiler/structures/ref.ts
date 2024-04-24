@@ -58,10 +58,10 @@ export function createRef(ref: PropertyDeclaration): Ref {
 }
 
 export function generateSimpleRef(ref: Ref, writer: CodeBlockWriter): CodeBlockWriter {
-  writer.write(`${getRefMethodName(ref.name)} () as InstanceType<typeof ${ref.type}>`)
+  writer.write(`${getRefMethodName(ref.name)} ()`)
 
   if (ref.type) {
-    writer.write(`: ${ref.type} `)
+    writer.write(`: as InstanceType<typeof ${ref.type}> `)
   } else {
     writer.write(' ')
   }
