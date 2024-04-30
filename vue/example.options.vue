@@ -96,8 +96,8 @@
             // refs
             myDiv: {
                 cache: false,
-                get(): HTMLDivElement {
-                    return this.$refs.myDiv as HTMLDivElement
+                get(): InstanceType<HTMLDivElement> {
+                    return this.$refs.myDiv as InstanceType<HTMLDivElement>
                 }
             },
             myDataOneUppercase () {

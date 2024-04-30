@@ -479,8 +479,8 @@ export default defineComponent({
 
     computed: {
         // refs
-        myDiv(): HTMLDivElement {
-            return this.$refs.myDiv as HTMLDivElement
+        myDiv(): InstanceType<typeof HTMLDivElement> {
+            return this.$refs.myDiv as InstanceType<typeof HTMLDivElement>
         },
         myDataOneUppercase () {
             return this.myDataOne.toUpperCase()

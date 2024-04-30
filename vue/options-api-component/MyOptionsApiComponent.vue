@@ -57,8 +57,8 @@
         computed: {
             refChild: {
                 cache: false,
-                get (): IMyOptionsApiComponentChild {
-                    return this.$refs.child as IMyOptionsApiComponentChild
+                get (): InstanceType<typeof IMyOptionsApiComponentChild> {
+                    return this.$refs.child as InstanceType<typeof IMyOptionsApiComponentChild>
                 },
             },
             computedProp1 (): number {

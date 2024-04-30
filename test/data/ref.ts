@@ -18,10 +18,8 @@ const [myDiv, myOtherDiv] = new Project()
     .getDescendantsOfKind(SyntaxKind.PropertyDeclaration)
 
 const myDivOptionsCode = 
-`refMyDiv (): HTMLDivElement {
-    // If HTMLDivElement is an Options API Vue component, it can be declare with "as InstanceType<typeof HTMLDivElement>".
-    // Otherwise, it can be declared just with "as HTMLDivElement".
-    return this.$refs.myDiv as HTMLDivElement
+`refMyDiv (): InstanceType<typeof HTMLDivElement> {
+    return this.$refs.myDiv as InstanceType<typeof HTMLDivElement>
 },
 `
 

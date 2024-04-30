@@ -61,7 +61,7 @@ export function generateSimpleRef(ref: Ref, writer: CodeBlockWriter): CodeBlockW
   writer.write(`${getRefMethodName(ref.name)} ()`)
 
   if (ref.type) {
-    writer.write(`: as InstanceType<typeof ${ref.type}> `)
+    writer.write(`: InstanceType<typeof ${ref.type}> `)
   } else {
     writer.write(' ')
   }
