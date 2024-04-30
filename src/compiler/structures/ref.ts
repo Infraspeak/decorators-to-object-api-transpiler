@@ -78,18 +78,3 @@ export function generateSimpleRef(ref: Ref, writer: CodeBlockWriter): CodeBlockW
 
   return writer
 }
-
-/**
- * @deprecated cache: false doesn't seem to work with `defineComponent`
- */
-export function generateRef(ref: Ref, writer: CodeBlockWriter): CodeBlockWriter {
-  return writer
-    .write(`${ref.name}: `).inlineBlock(() => {
-      writer
-        .writeLine('cache: false,')
-        .write(`get()${ref.type ? `: ${ref.type}` : ''} `).inlineBlock(() => {
-          writer.writeLine(`return this.$refs.${ref.name}${ref.type ? ` as ${ref.type}` : ''}`)
-        })
-    })
-    .write(',').newLine()
-}

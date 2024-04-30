@@ -18,7 +18,7 @@ const [myDiv, myOtherDiv] = new Project()
     .getDescendantsOfKind(SyntaxKind.PropertyDeclaration)
 
 const myDivOptionsCode = 
-`refMyDiv (): InstanceType<typeof HTMLDivElement> {
+`getRefMyDiv (): InstanceType<typeof HTMLDivElement> {
     return this.$refs.myDiv as InstanceType<typeof HTMLDivElement>
 },
 `
@@ -31,7 +31,7 @@ const refTestStructureMyDiv: TestCase<PropertyDeclaration, Ref> = {
 }
 
 const myOtherDivOptionsCode = 
-`refMyOtherDiv () {
+`getRefMyOtherDiv () {
     return this.$refs.myOtherDiv
 },
 `

@@ -1,6 +1,6 @@
 import { CodeBlockWriter } from 'ts-morph'
-import { createComponent, createComputed, createData, createEmit, createMethod, createMixin, createProp, createWatch, generateComponent, generateComputed, generateData, generateMethod, generateMixin, generateProp, generateWatch, StructureType } from '../../src/compiler/structures'
-import { COMPONENTS_TEST_CASES, COMPUTED_TEST_CASES, METHOD_TEST_CASES, PROP_TEST_CASES, DATA_TEST_CASES, EMIT_TEST_CASES, TestCase, HOOK_TEST_CASES, MIXIN_TEST_CASES, WATCH_TEST_CASES } from '../data'
+import { createComponent, createComputed, createData, createEmit, createMethod, createMixin, createProp, createRef, createWatch, generateComponent, generateComputed, generateData, generateMethod, generateMixin, generateProp, generateSimpleRef, generateWatch, StructureType } from '../../src/compiler/structures'
+import { COMPONENTS_TEST_CASES, COMPUTED_TEST_CASES, METHOD_TEST_CASES, PROP_TEST_CASES, DATA_TEST_CASES, EMIT_TEST_CASES, TestCase, HOOK_TEST_CASES, MIXIN_TEST_CASES, WATCH_TEST_CASES, REF_TEST_CASES } from '../data'
 
 describe('structures', () => {
 
@@ -38,6 +38,6 @@ describe('structures', () => {
   runStructureTests('method', METHOD_TEST_CASES, createMethod, generateMethod)
   runStructureTests('mixin', MIXIN_TEST_CASES, createMixin, generateMixin)
   runStructureTests('prop', PROP_TEST_CASES, createProp, generateProp)
-  // runStructureTests('ref', REF_TEST_CASES, createRef, generateSimpleRef)
+  runStructureTests('ref', REF_TEST_CASES, createRef, generateSimpleRef)
   runStructureTests('watch', WATCH_TEST_CASES, createWatch, generateWatch)
 })
